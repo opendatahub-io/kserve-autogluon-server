@@ -1,4 +1,4 @@
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 
 source "${SCRIPT_DIR}/../common.sh"
 
@@ -7,10 +7,7 @@ declare -a MODIFIED_FOLDERS=()
 
 # Cleanup function - restore all modified kustomization files
 cleanup() {
-    local idx folder
-    # Indexed loop: safe with `set -u` and an empty array (macOS ships Bash 3.2).
-    for (( idx = 0; idx < ${#MODIFIED_FOLDERS[@]}; idx++ )); do
-        folder="${MODIFIED_FOLDERS[idx]}"
+    for folder in "${MODIFIED_FOLDERS[@]}"; do
         if [ -f "${folder}/kustomization.yaml.bak" ]; then
             mv "${folder}/kustomization.yaml.bak" "${folder}/kustomization.yaml"
         fi
@@ -20,21 +17,14 @@ cleanup() {
 # Comment out CRD references in kustomization.yaml
 comment_crd(){
     local kustomization_folder="${1}"
-    local kf="${kustomization_folder}/kustomization.yaml"
-    local tmp="${kf}.tmp.$$"
     # Only create backup if it doesn't exist (idempotent for failed runs)
     if [ ! -f "${kustomization_folder}/kustomization.yaml.bak" ]; then
-        cp "${kf}" "${kustomization_folder}/kustomization.yaml.bak"
+        cp "${kustomization_folder}/kustomization.yaml" "${kustomization_folder}/kustomization.yaml.bak"
     fi
-    # Avoid `sed -i` (GNU vs BSD); write to a temp file then replace.
-    sed -e 's| *- \.\./crd$|# - ../crd|' \
-        -e 's| *- \.\./crd/full/localmodel$|# - ../crd/full/localmodel|' \
-        -e 's| *- \.\./crd/full/llmisvc$|# - ../crd/full/llmisvc|' \
-        -e 's| *- path: cainjection_conversion_webhook\.yaml$|# - path: cainjection_conversion_webhook.yaml|' \
-        "${kf}" > "${tmp}" && mv "${tmp}" "${kf}" || {
-        rm -f "${tmp}"
-        return 1
-    }
+    sed -i 's| *- \.\./crd$|# - ../crd|' "${kustomization_folder}/kustomization.yaml"
+    sed -i 's| *- \.\./crd/full/localmodel$|# - ../crd/full/localmodel|' "${kustomization_folder}/kustomization.yaml"
+    sed -i 's| *- \.\./crd/full/llmisvc$|# - ../crd/full/llmisvc|' "${kustomization_folder}/kustomization.yaml"
+    sed -i 's| *- path: cainjection_conversion_webhook\.yaml$|# - path: cainjection_conversion_webhook.yaml|' "${kustomization_folder}/kustomization.yaml"
     MODIFIED_FOLDERS+=("${kustomization_folder}")
 }
 
