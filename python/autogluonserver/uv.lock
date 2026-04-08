@@ -204,8 +204,8 @@ wheels = [
 
 [[package]]
 name = "autogluon-common"
-version = "1.5.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.5.0+rhaiv.1"
+source = { registry = "https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/" }
 dependencies = [
     { name = "boto3" },
     { name = "joblib" },
@@ -217,15 +217,14 @@ dependencies = [
     { name = "requests" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/37/41/9061cccdf09c9686bc1d1e6db074649b67d9ebc0a1a75a82beb2002b4c65/autogluon_common-1.5.0.tar.gz", hash = "sha256:ce6177a8e8c5cb129ecf3a392a8292d65b748590397dc8faf3511f0ba933e8b0", size = 63735, upload-time = "2025-12-19T19:55:51.661Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2d/1b/37d8a28965907d23eeba8bce56272932ee01176d192cefdf19a4a0b53c00/autogluon_common-1.5.0-py3-none-any.whl", hash = "sha256:8d7f348acafe9c32c2ff49905dbcd652064ca8bb9359516dac05c32dd27409ad", size = 74352, upload-time = "2025-12-19T19:55:49.851Z" },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/autogluon_common-1.5.0+rhaiv.1-3-py3-none-any.whl", hash = "sha256:932ca5f0cf3679d45ab737e11aaec0e58a049c5623e0ff99a50defc359b8c059" },
 ]
 
 [[package]]
 name = "autogluon-core"
-version = "1.5.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.5.0+rhaiv.1"
+source = { registry = "https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/" }
 dependencies = [
     { name = "autogluon-common" },
     { name = "boto3" },
@@ -240,30 +239,28 @@ dependencies = [
     { name = "scipy", version = "1.16.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a3/86/26d2eacc4a2c6000f8c0d38c2e059ef000286d05221668a0c4498f42a73a/autogluon_core-1.5.0.tar.gz", hash = "sha256:7a523c23e3e9605f671e8ed3894498a9049252bcc63e1f734bb822c705ac77c5", size = 199001, upload-time = "2025-12-19T19:55:55.112Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/96/de/4bffa0f6f3257e73a22402019d19fbe34dfedc2865896f97ad57935cf7dd/autogluon_core-1.5.0-py3-none-any.whl", hash = "sha256:df60d751d4093decdbc5fbcc4498d3e6b3d66eba27761020a9f5d89c7b735a48", size = 227605, upload-time = "2025-12-19T19:55:53.4Z" },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/autogluon_core-1.5.0+rhaiv.1-3-py3-none-any.whl", hash = "sha256:c127da6f82f259bd81f77eeecc400620ddf62329c848f899228c2f2eedd18d2f" },
 ]
 
 [[package]]
 name = "autogluon-features"
-version = "1.5.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.5.0+rhaiv.1"
+source = { registry = "https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/" }
 dependencies = [
     { name = "autogluon-common" },
     { name = "numpy" },
     { name = "pandas" },
     { name = "scikit-learn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6a/be/d18c6122231b4f284065b28522451772d714f5575fc994ce96e445829f25/autogluon_features-1.5.0.tar.gz", hash = "sha256:56545cf9c21c9c5fdee3f5a09ba023893d6dca4f54fb0a2c4ac720b8abe19de6", size = 80469, upload-time = "2025-12-19T19:55:58.233Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f3/c8/46eb69e371da89337419d3c754140f3ddae3c85a81b061ba3f275f442475/autogluon_features-1.5.0-py3-none-any.whl", hash = "sha256:5c8a7dd60c66b532b42122ff87a2d140adf7952632b6db24fe6255bb75f8d90e", size = 98874, upload-time = "2025-12-19T19:55:56.777Z" },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/autogluon_features-1.5.0+rhaiv.1-3-py3-none-any.whl", hash = "sha256:666566a3633b33eb8e658a0e8a9f187d69963d9a7ab02e20263ec5e5fdcef9b9" },
 ]
 
 [[package]]
 name = "autogluon-tabular"
-version = "1.5.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.5.0+rhaiv.1"
+source = { registry = "https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/" }
 dependencies = [
     { name = "autogluon-core" },
     { name = "autogluon-features" },
@@ -275,15 +272,11 @@ dependencies = [
     { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "scipy", version = "1.16.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9c/10/8576e66465a673f15c782e5d61ee4a994c6338d6ed511244653e0813df9e/autogluon_tabular-1.5.0.tar.gz", hash = "sha256:7d7a4bbaa1574fe823ba08059d58e6cbb264716fc429892bfec3f402edaeb550", size = 437710, upload-time = "2025-12-19T19:56:02.24Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/48/7c/50547d2940e98c8a15b8c92cd4953814385b95f5fc1dec806fa240389417/autogluon_tabular-1.5.0-py3-none-any.whl", hash = "sha256:62ba6ee7fc88f60effc5e11ee6f55f86a0917b55f2c2ff881cd9a611267cdceb", size = 515194, upload-time = "2025-12-19T19:56:00.107Z" },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/autogluon_tabular-1.5.0+rhaiv.1-3-py3-none-any.whl", hash = "sha256:5bb3c72570458da406ebec8d2c3ced739ce6775121343c29d60e3882093eef26" },
 ]
 
 [package.optional-dependencies]
-catboost = [
-    { name = "catboost" },
-]
 lightgbm = [
     { name = "lightgbm" },
 ]
@@ -293,14 +286,14 @@ xgboost = [
 
 [[package]]
 name = "autogluon-timeseries"
-version = "1.5.0"
-source = { registry = "https://pypi.org/simple" }
+version = "1.5.0+rhaiv.1"
+source = { registry = "https://console.redhat.com/api/pypi/public-rhai/rhoai/3.4/cpu-ubi9/simple/" }
 dependencies = [
     { name = "accelerate" },
     { name = "autogluon-common" },
     { name = "autogluon-core" },
     { name = "autogluon-features" },
-    { name = "autogluon-tabular", extra = ["catboost", "lightgbm", "xgboost"] },
+    { name = "autogluon-tabular", extra = ["lightgbm", "xgboost"] },
     { name = "chronos-forecasting" },
     { name = "coreforecast" },
     { name = "einops" },
@@ -324,9 +317,8 @@ dependencies = [
     { name = "transformers", extra = ["sentencepiece"] },
     { name = "utilsforecast" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e9/91/d511e8728d69c07a9f0448abcdedb8069f6a3b42929dad20287b6db5451c/autogluon_timeseries-1.5.0.tar.gz", hash = "sha256:b29c908a90618bceb93e902626f256e112d161f22045fff8d4249955cb742016", size = 201658, upload-time = "2025-12-19T19:56:09.717Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cf/91/a5110b596b1e7618ac7742af81295e9cd5bd1a66a81f29531228f1346bf8/autogluon_timeseries-1.5.0-py3-none-any.whl", hash = "sha256:8c27218906a557f1ec784ace90259fc17646feb47efd3f425e56eb25dd76a41d", size = 244790, upload-time = "2025-12-19T19:56:08.189Z" },
+    { url = "https://packages.redhat.com/api/pulp-content/public-rhai/rhoai/3.4/cpu-ubi9/autogluon_timeseries-1.5.0+rhaiv.1-3-py3-none-any.whl", hash = "sha256:3a19781cb765fe1e0e8a5e49cb8332713a8e3c4d456a80ec2e6616235dd7ea91" },
 ]
 
 [[package]]
@@ -358,8 +350,8 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "autogluon-tabular", specifier = "==1.5.0" },
-    { name = "autogluon-timeseries", specifier = "==1.5.0" },
+    { name = "autogluon-tabular", specifier = "==1.5.0+rhaiv.1" },
+    { name = "autogluon-timeseries", specifier = "==1.5.0+rhaiv.1" },
     { name = "catboost", specifier = "==1.2.8" },
     { name = "fastai", specifier = "==2.8.5" },
     { name = "kserve", directory = "../kserve" },
