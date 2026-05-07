@@ -319,29 +319,6 @@ test: fmt vet manifests envtest test-qpext
 test-qpext:
 	cd qpext && go test -v ./... -cover
 
-# Fast, offline unit tests (no cluster, no cloud credentials).
-# Go: uses envtest binaries only. Python: kserve + storage packages via uv (see python/kserve).
-# Narrow scope: make test-unit-go GO_TEST_PKGS="./pkg/controller/v1beta1/..."
-#              make test-unit-python PACKAGE="test/test_infer_type.py ../storage"
-GO_TEST_PKGS ?=
-# Paths are relative to python/kserve (matches CI: pytest from python/ against ./kserve and ./storage)
-PACKAGE ?= . ../storage
-
-.PHONY: test-unit test-unit-go test-unit-python
-test-unit: test-unit-go test-unit-python
-
-test-unit-go: envtest test-qpext
-	KUBEBUILDER_ASSETS="$$($(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" go test --timeout 30m \
-	$(if $(strip $(GO_TEST_PKGS)),$(GO_TEST_PKGS),$$(go list ./pkg/...) ./cmd/...) \
-	-coverprofile coverage.out -coverpkg ./pkg/... ./cmd/...
-
-# Matches python/kserve dev_install (ray + llm). vLLM wheels are Linux-only — on macOS use make test-unit-go or Linux CI.
-test-unit-python:
-	cd python/kserve && \
-	uv sync --group test --extra ray --extra llm && \
-	uv pip install ../storage --no-cache && \
-	uv run pytest $(PACKAGE)
-
 # Build manager binary
 manager: generate fmt vet go-lint
 	go build -o bin/manager ./cmd/manager

@@ -6,31 +6,38 @@ Serve ML models on Kubernetes: Go controllers/webhooks (`pkg/`, `cmd/`), CRDs an
 
 **Offline unit tests (no cluster, no cloud credentials)** — primary agent loop:
 
-```bash
-make test-unit                 # Go controller tests + Python kserve & storage
-make test-unit-go            # Go only (envtest + local apiserver; downloads kube test binaries once)
-make test-unit-python        # Python only (uv sync + pytest under python/kserve)
-```
-
-**Platforms:** `make test-unit-python` installs the same extras as CI (`ray`, `llm` / vLLM). **vLLM does not publish wheels for macOS**, so `uv sync` may fail there — use **Linux** (or WSL2 / your CI image) for full Python unit tests, or run **`make test-unit-go`** locally and rely on **`python-test`** workflow for Python. Go tests only need a Go toolchain compatible with `go.mod` and envtest assets.
-
-**Scope to one area:**
+**Go** — full suite with fmt, vet, manifest regeneration, envtest, and coverage (slowest; use before API/CRD changes):
 
 ```bash
-make test-unit-go GO_TEST_PKGS="./pkg/controller/v1beta1/..."
-make test-unit-python PACKAGE="test/test_infer_type.py ../storage"
+make test
 ```
 
-From `python/` with `kserve`’s venv active (`cd python/kserve && make dev_install`):  
-`pytest ./kserve ./storage` — same coverage as the default `PACKAGE`; narrow with a file under `./kserve/test/` or `-k expression`.
-
-**Full Go CI-like run** (fmt, vet, regenerates manifests — slow; run before commits touching APIs or CRDs):
+**Go** — faster iteration (envtest + tests only, no fmt/vet/manifests):
 
 ```bash
-make test                    # includes manifests generation + envtest + coverage
+make envtest test-qpext
+KUBEBUILDER_ASSETS="$(./bin/setup-envtest use $(go list -m -f '{{.Version}}' k8s.io/api | awk -F'[v.]' '{printf "1.%d", $3}') -p path)" \
+  go test -timeout 30m $(go list ./pkg/...) ./cmd/...
 ```
 
-**Integration / cluster / E2E** — not covered by `make test-unit`; require Kubernetes (examples under `test/` and docs).
+Single package or subtree: replace `$(go list ./pkg/...) ./cmd/...` with e.g. `./pkg/controller/v1beta1/...`.
+
+**Python** (aligned with CI: `python/kserve` + `python/storage`):
+
+```bash
+cd python/kserve && make install_dependencies && make dev_install    # once
+cd python && source kserve/.venv/bin/activate && pytest ./kserve ./storage
+```
+
+One-shot with `uv` from `python/kserve` (same extras as `dev_install`: `test`, `ray`, `llm`):
+
+```bash
+cd python/kserve && uv sync --group test --extra ray --extra llm && uv pip install ../storage --no-cache && uv run pytest . ../storage
+```
+
+**Platforms:** **`uv sync`** with **`llm`** pulls **vLLM**, which has **no macOS wheels** — use **Linux** / **WSL2** / CI for that one-shot line, or use **`pytest`** after **`dev_install`** on macOS if your environment resolves deps. **Go** tests need a Go toolchain matching **`go.mod`** (and envtest assets via **`make envtest`**).
+
+**Integration / cluster / E2E** — require Kubernetes (see `test/` and docs), not the commands above.
 
 ## Lint & format (fast single-path)
 
@@ -76,6 +83,5 @@ There is no repo-wide Python typecheck in CI for all modules; `python/kserve` ex
 ## PR / CI conventions
 
 - **`make check`** must pass on PRs that touch non-markdown code (see `.github/workflows/precommit-check.yml`).
-- **`make test-unit`** should pass for offline changes affecting Go or core Python SDK/storage.
-- **`pytest`** matrices for optional servers live in `.github/workflows/python-test.yml` when under `python/**`.
+- For offline Go/Python changes, **`make test`** and **`pytest ./kserve ./storage`** (from `python/` with the kserve venv) are the main local gates; optional servers are tested in **`.github/workflows/python-test.yml`**.
 - Contributor policy and DCO/sign-off expectations: [KServe community — How to contribute](https://github.com/kserve/community#how-can-i-help-).
