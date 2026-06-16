@@ -17,6 +17,7 @@ resources:
 - kserve-autogluonserver.yaml
 - kserve-vllmserver.yaml
 
+
 images:
   # SMS Only Runtimes
 - name: tensorflow-serving
