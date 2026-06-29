@@ -1786,6 +1786,8 @@ get_kserve_runtime_manifests() {
 apiVersion: serving.kserve.io/v1alpha1
 kind: ClusterServingRuntime
 metadata:
+  annotations:
+    serving.kserve.io/server-type: autogluonserver
   name: kserve-autogluonserver
 spec:
   annotations:
@@ -1819,46 +1821,6 @@ spec:
   - name: autogluon
     version: "1"
   - name: autogluon-timeseries
-    version: "1"
----
-apiVersion: serving.kserve.io/v1alpha1
-kind: ClusterServingRuntime
-metadata:
-  annotations:
-    serving.kserve.io/server-type: autogluonserver
-  name: kserve-autogluonserver
-spec:
-  annotations:
-    prometheus.kserve.io/path: /metrics
-    prometheus.kserve.io/port: "8080"
-  containers:
-  - args:
-    - --model_name={{.Name}}
-    - --model_dir=/mnt/models
-    - --http_port=8080
-    image: kserve/autogluonserver:latest
-    name: kserve-container
-    resources:
-      limits:
-        cpu: "1"
-        memory: 2Gi
-      requests:
-        cpu: "1"
-        memory: 2Gi
-    securityContext:
-      allowPrivilegeEscalation: false
-      capabilities:
-        drop:
-        - ALL
-      privileged: false
-      runAsNonRoot: true
-  protocolVersions:
-  - v1
-  - v2
-  supportedModelFormats:
-  - autoSelect: true
-    name: autogluon
-    priority: 1
     version: "1"
 ---
 apiVersion: serving.kserve.io/v1alpha1

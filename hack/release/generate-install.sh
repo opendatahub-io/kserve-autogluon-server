@@ -85,7 +85,7 @@ RELEASES=(
 
 TAG=$1
 
-if [[ ! " ${RELEASES[@]} " =~ " ${TAG} " ]]; then
+if [[ ! " ${RELEASES[*]} " =~ " ${TAG} " ]]; then
     echo "Expected \$1 to be one of $RELEASES"
     exit 1
 fi
